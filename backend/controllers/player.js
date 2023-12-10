@@ -1,5 +1,5 @@
 module.exports = {
-    getAllPlayers: (req, res) => {
+    getPlayer: (req, res) => {
         let playerId = req.params.id;
         let query = "SELECT * FROM `players` WHERE ID = '" + playerId + "'";
 
@@ -14,7 +14,7 @@ module.exports = {
             }
         });
     },
-    getPlayer: (req, res) => {
+    getAllPlayers: (req, res) => {
         let query = "SELECT * FROM `players`";
 
         db.query(query, (err, result) => {
@@ -64,7 +64,7 @@ module.exports = {
             if (err) {
                 return res.status(500).send(err);
             }
-            res.redirect('/');
+            res.json('Edited');
         });
     },
     deletePlayer: (req, res) => {
@@ -74,7 +74,7 @@ module.exports = {
             if (err) {
                 return res.status(500).send(err);
             }
-            res.redirect('/');
+            res.json('Deleted');
         });
     }
 };

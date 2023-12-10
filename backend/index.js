@@ -17,6 +17,7 @@ app.use(express.urlencoded({ extended: false }))
 
 // Routes
 app.use('/api/player', require('./routes/player'))
+app.use('/api/shot', require('./routes/shot'))
 
 app.listen(config.port, () => {
     console.log(`Server running on port ${config.port}`);
