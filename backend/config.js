@@ -8,7 +8,7 @@ dotenv.config();
 const { PORT,
     HOST,
     HOST_URL,
-    COOKIE_ENCRYPT_PWD,
+    JWT_SECRET,
     SQL_SERVER,
     SQL_DATABASE,
     SQL_USER,
@@ -21,7 +21,7 @@ const sqlEncrypt = process.env.SQL_ENCRYPT === "true";
 assert(PORT, "PORT configuration is required.");
 assert(HOST, "HOST configuration is required.");
 assert(HOST_URL, "HOST_URL configuration is required.");
-assert(COOKIE_ENCRYPT_PWD, "COOKIE_ENCRYPT_PWD configuration is required.");
+assert(JWT_SECRET, "JWT_SECRET configuration is required.");
 assert(SQL_SERVER, "SQL_SERVER configuration is required.");
 assert(SQL_DATABASE, "SQL_DATABASE configuration is required.");
 assert(SQL_USER, "SQL_USER configuration is required.");
@@ -32,7 +32,7 @@ module.exports = {
     port: PORT,
     host: HOST,
     url: HOST_URL,
-    cookiePwd: COOKIE_ENCRYPT_PWD,
+    jwtSecret: JWT_SECRET,
     sql: {
         host: SQL_SERVER,
         database: SQL_DATABASE,

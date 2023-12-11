@@ -16,8 +16,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 // Routes
-app.use('/api/player', require('./routes/player'))
-app.use('/api/shot', require('./routes/shot'))
+app.use('/api/auth', require('./routes/authRoutes'))
+app.use('/api/player', require('./routes/playerRoutes'))
+app.use('/api/shot', require('./routes/shotRoutes'))
 
 app.listen(config.port, () => {
     console.log(`Server running on port ${config.port}`);

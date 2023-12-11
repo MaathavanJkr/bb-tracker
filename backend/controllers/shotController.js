@@ -24,6 +24,17 @@ module.exports = {
             res.json(result);
         });
     },
+    getPlayerShots: (req, res) => {
+        let playerId = req.params.player;
+        let query = "SELECT * FROM `shots` WHERE user_id = '" + playerId + "'";
+
+        db.query(query, (err, result) => {
+            if (err) {
+                return res.status(500).send(err);
+            }
+            res.json(result);
+        });
+    },
     addShot: (req, res) => {
         let type = req.body.type;
         let attempt = req.body.attempt;
@@ -40,4 +51,29 @@ module.exports = {
             res.json('Created');
         });
     },
+    editShot: (req, res) => {
+        let shotId = req.params.id;
+        let type = req.body.type;
+        let attempt = req.body.attempt;
+        let success = req.body.success;
+        let date = req.body.date;
+
+        let query = "UPDATE `shots` SET `type` = '" + type + "', `attempt` = '" + attempt + "', `success` = '" + success + "', `date` = '" + date + "' WHERE `shots`.`id` = '" + shotId + "'";
+        db.query(query, (err, result) => {
+            if (err) {
+                return res.status(500).send(err);
+            }
+            res.json('Edited');
+        });
+    },
+    deleteShot: (req, res) => {
+        let shotId = req.params.id;
+        let deleteUserQuery = 'DELETE FROM shots WHERE id = "' + shotId + '"';
+        db.query(deleteUserQuery, (err, result) => {
+            if (err) {
+                return res.status(500).send(err);
+            }
+            res.json('Deleted');
+        });
+    }
 };

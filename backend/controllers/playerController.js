@@ -1,7 +1,7 @@
 module.exports = {
     getPlayer: (req, res) => {
         let playerId = req.params.id;
-        let query = "SELECT * FROM `players` WHERE ID = '" + playerId + "'";
+        let query = "SELECT * FROM `users` WHERE ID = '" + playerId + "'";
 
         db.query(query, (err, result) => {
             if (err) {
@@ -15,7 +15,7 @@ module.exports = {
         });
     },
     getAllPlayers: (req, res) => {
-        let query = "SELECT * FROM `players`";
+        let query = "SELECT * FROM `users`";
 
         db.query(query, (err, result) => {
             if (err) {
@@ -31,7 +31,7 @@ module.exports = {
         let number = req.body.number;
         let username = req.body.username;
 
-        let usernameQuery = "SELECT * FROM `players` WHERE user_name = '" + username + "'";
+        let usernameQuery = "SELECT * FROM `users` WHERE user_name = '" + username + "'";
 
         db.query(usernameQuery, (err, result) => {
             if (err) {
@@ -41,7 +41,7 @@ module.exports = {
                 return res.json("username exist");
             } else {
                 // send the player's details to the database
-                let query = "INSERT INTO `players` (first_name, last_name, position, number, user_name) VALUES ('" +
+                let query = "INSERT INTO `users` (first_name, last_name, position, number, user_name) VALUES ('" +
                     first_name + "', '" + last_name + "', '" + position + "', '" + number + "', '" + username + "')";
                 db.query(query, (err, result) => {
                     if (err) {
@@ -59,7 +59,7 @@ module.exports = {
         let position = req.body.position;
         let number = req.body.number;
 
-        let query = "UPDATE `players` SET `first_name` = '" + first_name + "', `last_name` = '" + last_name + "', `position` = '" + position + "', `number` = '" + number + "' WHERE `players`.`id` = '" + playerId + "'";
+        let query = "UPDATE `users` SET `first_name` = '" + first_name + "', `last_name` = '" + last_name + "', `position` = '" + position + "', `number` = '" + number + "' WHERE `users`.`id` = '" + playerId + "'";
         db.query(query, (err, result) => {
             if (err) {
                 return res.status(500).send(err);
