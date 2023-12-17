@@ -46,6 +46,7 @@ module.exports = {
         if (!username || !password) {
             return res.status(400).json({
                 message: "Username or Password not present",
+                success: false
             })
         }
 
@@ -56,17 +57,24 @@ module.exports = {
                 return res.status(500).send(err);
             }
             if (result.length == 0) {
-                return res.json("username doesnot exist");
+                return res.json({
+                    message: "username doesnot exist",
+                    success: false
+                });
             } else {
                 let user = result[0]
                 bcrypt.compare(password, user.hash).then(function (result) {
                     result
                         ? res.status(200).json({
+                            success: true,
                             message: "Login successful",
                             user,
                             token: generateJwtToken({ id: user.id, username: user.username, role: user.role })
                         })
-                        : res.status(400).json({ message: "Login not succesful" })
+                        : res.status(400).json({
+                            message: "Wrong Password",
+                            success: false,
+                        })
                     return
                 })
             }

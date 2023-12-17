@@ -1,5 +1,6 @@
 var express = require("express");
 var app = express();
+const cors = require('cors')
 var mysql = require('mysql');
 const config = require("./config");
 
@@ -10,6 +11,8 @@ db.connect(function (err) {
 });
 global.db = db;
 
+
+app.use(cors())
 
 // Handle post requests
 app.use(express.json())
