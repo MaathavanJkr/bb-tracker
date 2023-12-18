@@ -1,16 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useHistory } from "react-router-dom";
 import PageTitle from '../components/Typography/PageTitle'
 import { Input, Button, Label, Select } from '@windmill/react-ui'
 
+import { useParams } from 'react-router';
+
 function Forms() {
+  const { id } = useParams();
 
   let history = useHistory();
 
   const [type, setType] = useState('two');
   const [attempt, setAttempt] = useState('');
   const [success, setSuccess] = useState('');
-  const [date, setDate] = useState(dateNow);
+  const [date, setDate] = useState('');
   const addShot = async () => {
     await fetch('http://localhost:8000/api/shot/' + id, {
       method: 'PUT',
@@ -19,7 +22,6 @@ function Forms() {
         attempt: attempt,
         success: success,
         date: date,
-        user_id: 1,
       }),
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
@@ -38,9 +40,24 @@ function Forms() {
         console.log(err.message);
       });
   };
+
+  useEffect(() => {
+    fetch('http://localhost:8000/api/shot/' + id)
+      .then((response) => response.json())
+      .then((shot) => {
+        setAttempt(shot.attempt)
+        setSuccess(shot.success)
+        setType(shot.type)
+        setDate(shot.date.substring(0, 10))
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, [])
+
   return (
     <>
-      <PageTitle>Add Shots</PageTitle>
+      <PageTitle>Edit Shots</PageTitle>
 
       <div className="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
 
@@ -70,7 +87,7 @@ function Forms() {
             onChange={(e) => setDate(e.target.value)} />
         </Label>
         <div className="mt-4 flex justify-end">
-          <Button onClick={addShot}>Add Shot</Button>
+          <Button onClick={addShot}>Update Shot</Button>
         </div>
       </div>
     </>

@@ -4,6 +4,7 @@ import { lazy } from 'react'
 const Dashboard = lazy(() => import('../pages/Dashboard'))
 const Profile = lazy(() => import('../pages/Profile'))
 const AddShot = lazy(() => import('../pages/AddShot'))
+const editShot = lazy(() => import('../pages/editShot'))
 const Page404 = lazy(() => import('../pages/404'))
 const Blank = lazy(() => import('../pages/Blank'))
 
@@ -23,12 +24,16 @@ const routes = [
     component: Dashboard, // view rendered
   },
   {
-    path: '/profile',
+    path: '/profile/:id',
     component: Profile,
   },
   {
     path: '/add',
     component: AddShot,
+  },
+  {
+    path: '/edit/:id',
+    component: editShot,
   },
   {
     path: '/404',

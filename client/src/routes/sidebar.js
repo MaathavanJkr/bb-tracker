@@ -12,7 +12,7 @@ const routes = [
     name: 'Dashboard', // name that appear in Sidebar
   },
   {
-    path: '/app/profile',
+    path: '/app/profile/1',
     icon: 'FormsIcon',
     name: 'Profile',
   },

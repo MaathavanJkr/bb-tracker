@@ -66,7 +66,10 @@ module.exports = {
             if (err) {
                 return res.status(500).send(err);
             }
-            res.json('Edited');
+            res.status(400).json({
+                message: "Updated",
+                success: true,
+            });
         });
     },
     deleteShot: (req, res) => {

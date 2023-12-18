@@ -23,7 +23,6 @@ function Forms() {
         attempt: attempt,
         success: success,
         date: date,
-        user_id: 1,
       }),
       headers: {
         'Content-type': 'application/json; charset=UTF-8',

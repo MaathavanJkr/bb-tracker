@@ -84,7 +84,7 @@ module.exports = {
 
 // Generate JWT
 const generateJwtToken = (data) => {
-    const maxAge = 3 * 60 * 60;
+    const maxAge = 31 * 24 * 60 * 60;
     return jwt.sign(data, config.jwtSecret, {
         expiresIn: maxAge
     })

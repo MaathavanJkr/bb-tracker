@@ -20,9 +20,11 @@ import ChartLegend from '../components/Chart/ChartLegend'
 import PageTitle from '../components/Typography/PageTitle'
 
 import { EditIcon, TrashIcon } from '../icons'
-
+import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 
 function Profile() {
+  const { id } = useParams();
   const months = ['0', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
   const [player, setPlayer] = useState({})
@@ -107,7 +109,7 @@ function Profile() {
   // on page change, load new sliced players
   // here you would make another server request for new players
   useEffect(() => {
-    fetch('http://localhost:8000/api/shot/player/1')
+    fetch('http://localhost:8000/api/shot/player/' + id)
       .then((response) => response.json())
       .then((shots) => {
         setTotalResults(shots.length)
@@ -119,7 +121,7 @@ function Profile() {
   }, [page])
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/player/1')
+    fetch('http://localhost:8000/api/player/' + id)
       .then((response) => response.json())
       .then((player) => {
         setPlayer(player)
@@ -259,9 +261,11 @@ function Profile() {
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center space-x-4">
-                    <Button layout="link" size="icon" aria-label="Edit">
-                      <EditIcon className="w-5 h-5" aria-hidden="true" />
-                    </Button>
+                    <Link to={"/app/edit/" + shot.id}>
+                      <Button layout="link" size="icon" aria-label="Edit">
+                        <EditIcon className="w-5 h-5" aria-hidden="true" />
+                      </Button>
+                      </Link>
                     <Button onClick={() => { deleteShot(shot.id) }} layout="link" size="icon" aria-label="Delete">
                       <TrashIcon className="w-5 h-5" aria-hidden="true" />
                     </Button>
