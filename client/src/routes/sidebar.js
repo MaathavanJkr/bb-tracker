@@ -17,9 +17,9 @@ const routes = [
     name: 'Profile',
   },
   {
-    path: '/app/cards',
+    path: '/app/add',
     icon: 'CardsIcon',
-    name: 'Cards',
+    name: 'Add Shots',
   },
   {
     path: '/app/charts',

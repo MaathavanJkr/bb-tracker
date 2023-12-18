@@ -1,5 +1,5 @@
 import React, { useContext, Suspense, useEffect, lazy } from 'react'
-import { Switch, Route, Redirect, useLocation } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import routes from '../routes'
 
 import Sidebar from '../components/Sidebar'
@@ -7,6 +7,7 @@ import Header from '../components/Header'
 import Main from '../containers/Main'
 import ThemedSuspense from '../components/ThemedSuspense'
 import { SidebarContext } from '../context/SidebarContext'
+import { useHistory } from "react-router-dom";
 
 const Page404 = lazy(() => import('../pages/404'))
 
@@ -14,8 +15,14 @@ function Layout() {
   const { isSidebarOpen, closeSidebar } = useContext(SidebarContext)
   // let location = useLocation()
 
+  let history = useHistory();
   useEffect(() => {
+    var token = localStorage.getItem("token");
+    if (!token) {
+      history.push('/login')
+    }
     closeSidebar()
+    // eslint-disable-next-line
   }, [])
 
   return (

@@ -1,15 +1,26 @@
 import React, { useEffect, useState } from 'react'
 
-import { Card, CardBody } from '@windmill/react-ui'
+import {
+  Card,
+  CardBody,
+  TableBody,
+  TableContainer,
+  Table,
+  TableHeader,
+  TableCell,
+  TableRow,
+  TableFooter,
+  Button,
+  Pagination,
+} from '@windmill/react-ui'
+
 import ChartCard from '../components/Chart/ChartCard'
-import { Doughnut, Line, Bar } from 'react-chartjs-2'
+import { Doughnut, Line } from 'react-chartjs-2'
 import ChartLegend from '../components/Chart/ChartLegend'
 import PageTitle from '../components/Typography/PageTitle'
-import {
-  barOptions,
-  lineLegends,
-  barLegends,
-} from '../utils/demo/chartsData'
+
+import { EditIcon, TrashIcon } from '../icons'
+
 
 function Charts() {
   const months = ['0', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
@@ -81,7 +92,32 @@ function Charts() {
     { title: 'Attempt', color: 'bg-blue-600' },
     { title: 'Success', color: 'bg-green-600' },
   ]
-  
+  const [page, setPage] = useState(1)
+  const [players, setPlayers] = useState([])
+
+  // pagination setup
+  const resultsPerPage = 10
+  const totalResults = players.length
+
+  // pagination change control
+  function onPageChange(p) {
+    setPage(p)
+  }
+
+  // on page change, load new sliced players
+  // here you would make another server request for new players
+  useEffect(() => {
+    fetch('http://localhost:8000/api/player')
+      .then((response) => response.json())
+      .then((players) => {
+        console.log(players);
+        setPlayers(players.slice((page - 1) * resultsPerPage, page * resultsPerPage))
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, [page])
+
   useEffect(() => {
     fetch('http://localhost:8000/api/player/1')
       .then((response) => response.json())
@@ -126,7 +162,7 @@ function Charts() {
       .catch((err) => {
         console.log(err.message);
       });
-  }, [])
+  }, [months, shotDoughnut, shotLine])
   return (
     <>
       <PageTitle>Profile</PageTitle>
@@ -164,10 +200,56 @@ function Charts() {
           <ChartLegend legends={lineLegends} />
         </ChartCard>
 
-        <ChartCard title="Bars">
+        {/* <ChartCard title="Bars">
           <Bar {...barOptions} />
           <ChartLegend legends={barLegends} />
-        </ChartCard>
+        </ChartCard> */}
+
+        <TableContainer>
+          <Table>
+            <TableHeader>
+              <tr>
+                <TableCell>Player</TableCell>
+                <TableCell>Position</TableCell>
+                <TableCell>Action</TableCell>
+              </tr>
+            </TableHeader>
+            <TableBody>
+              {players.map((player, i) => (
+                <TableRow key={i}>
+                  <TableCell>
+                    <div>
+                      <p className="font-semibold">{player.first_name + " " + player.last_name}</p>
+                      <p className="text-xs text-gray-600 dark:text-gray-400">{player.job}</p>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <span className="text-sm">{player.position}</span>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center space-x-4">
+                      <Button layout="link" size="icon" aria-label="Edit">
+                        <EditIcon className="w-5 h-5" aria-hidden="true" />
+                      </Button>
+                      <Button layout="link" size="icon" aria-label="Delete">
+                        <TrashIcon className="w-5 h-5" aria-hidden="true" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <TableFooter>
+            <Pagination
+              totalResults={totalResults}
+              resultsPerPage={resultsPerPage}
+              label="Table navigation"
+              onChange={onPageChange}
+            />
+          </TableFooter>
+        </TableContainer>
+
       </div>
     </>
   )

@@ -40,7 +40,7 @@ module.exports = {
         let attempt = req.body.attempt;
         let success = req.body.success;
         let date = req.body.date;
-        let user_id = req.body.user_id;
+        let user_id = req.user;
 
         let query = "INSERT INTO `shots` (type, attempt, success, date, user_id) VALUES ('" +
         type + "', '" + attempt + "', '" + success + "', '" + date + "', '" + user_id + "')";
@@ -48,7 +48,10 @@ module.exports = {
             if (err) {
                 return res.status(500).send(err);
             }
-            res.json('Created');
+            res.status(400).json({
+                message: "Created",
+                success: true,
+            });
         });
     },
     editShot: (req, res) => {
