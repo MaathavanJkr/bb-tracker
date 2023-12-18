@@ -22,7 +22,7 @@ import PageTitle from '../components/Typography/PageTitle'
 import { EditIcon, TrashIcon } from '../icons'
 
 
-function Charts() {
+function Profile() {
   const months = ['0', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
   const [player, setPlayer] = useState({})
@@ -93,11 +93,11 @@ function Charts() {
     { title: 'Success', color: 'bg-green-600' },
   ]
   const [page, setPage] = useState(1)
-  const [players, setPlayers] = useState([])
+  const [shots, setShots] = useState([])
+  const [totalResults, setTotalResults] = useState(0)
 
   // pagination setup
   const resultsPerPage = 10
-  const totalResults = players.length
 
   // pagination change control
   function onPageChange(p) {
@@ -107,11 +107,11 @@ function Charts() {
   // on page change, load new sliced players
   // here you would make another server request for new players
   useEffect(() => {
-    fetch('http://localhost:8000/api/player')
+    fetch('http://localhost:8000/api/shot/player/1')
       .then((response) => response.json())
-      .then((players) => {
-        console.log(players);
-        setPlayers(players.slice((page - 1) * resultsPerPage, page * resultsPerPage))
+      .then((shots) => {
+        setTotalResults(shots.length)
+        setShots(shots.slice((page - 1) * resultsPerPage, page * resultsPerPage))
       })
       .catch((err) => {
         console.log(err.message);
@@ -122,7 +122,6 @@ function Charts() {
     fetch('http://localhost:8000/api/player/1')
       .then((response) => response.json())
       .then((player) => {
-        console.log(player);
         setPlayer(player)
 
         let attemptData = []
@@ -162,7 +161,30 @@ function Charts() {
       .catch((err) => {
         console.log(err.message);
       });
-  }, [months, shotDoughnut, shotLine])
+    // eslint-disable-next-line
+  }, [])
+
+  const deleteShot = async (id) => {
+    await fetch('http://localhost:8000/api/shot/' + id, {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ' + localStorage.getItem("token"),
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          alert("Deleted")
+        } else {
+          console.log(data)
+        }
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
   return (
     <>
       <PageTitle>Profile</PageTitle>
@@ -204,55 +226,62 @@ function Charts() {
           <Bar {...barOptions} />
           <ChartLegend legends={barLegends} />
         </ChartCard> */}
-
-        <TableContainer>
-          <Table>
-            <TableHeader>
-              <tr>
-                <TableCell>Player</TableCell>
-                <TableCell>Position</TableCell>
-                <TableCell>Action</TableCell>
-              </tr>
-            </TableHeader>
-            <TableBody>
-              {players.map((player, i) => (
-                <TableRow key={i}>
-                  <TableCell>
-                    <div>
-                      <p className="font-semibold">{player.first_name + " " + player.last_name}</p>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">{player.job}</p>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <span className="text-sm">{player.position}</span>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center space-x-4">
-                      <Button layout="link" size="icon" aria-label="Edit">
-                        <EditIcon className="w-5 h-5" aria-hidden="true" />
-                      </Button>
-                      <Button layout="link" size="icon" aria-label="Delete">
-                        <TrashIcon className="w-5 h-5" aria-hidden="true" />
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          <TableFooter>
-            <Pagination
-              totalResults={totalResults}
-              resultsPerPage={resultsPerPage}
-              label="Table navigation"
-              onChange={onPageChange}
-            />
-          </TableFooter>
-        </TableContainer>
-
       </div>
+
+
+      <TableContainer>
+        <Table>
+          <TableHeader>
+            <tr>
+              <TableCell>Type</TableCell>
+              <TableCell>Attempt</TableCell>
+              <TableCell>Success</TableCell>
+              <TableCell>Date</TableCell>
+              <TableCell>Action</TableCell>
+            </tr>
+          </TableHeader>
+          <TableBody>
+            {shots.map((shot, i) => (
+              <TableRow key={i}>
+                <TableCell>
+                  <div>
+                    <p className="font-semibold">{shot.type}</p>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <span className="text-sm">{shot.attempt}</span>
+                </TableCell>
+                <TableCell>
+                  <span className="text-sm">{shot.success}</span>
+                </TableCell>
+                <TableCell>
+                  <span className="text-sm">{shot.date.substring(0, 10)}</span>
+                </TableCell>
+                <TableCell>
+                  <div className="flex items-center space-x-4">
+                    <Button layout="link" size="icon" aria-label="Edit">
+                      <EditIcon className="w-5 h-5" aria-hidden="true" />
+                    </Button>
+                    <Button onClick={() => { deleteShot(shot.id) }} layout="link" size="icon" aria-label="Delete">
+                      <TrashIcon className="w-5 h-5" aria-hidden="true" />
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <TableFooter>
+          <Pagination
+            totalResults={totalResults}
+            resultsPerPage={resultsPerPage}
+            label="Table navigation"
+            onChange={onPageChange}
+          />
+        </TableFooter>
+      </TableContainer>
     </>
   )
 }
 
-export default Charts
+export default Profile

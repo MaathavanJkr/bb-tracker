@@ -76,7 +76,10 @@ module.exports = {
             if (err) {
                 return res.status(500).send(err);
             }
-            res.json('Deleted');
+            res.status(400).json({
+                message: "Deleted",
+                success: true,
+            });
         });
     }
 };
