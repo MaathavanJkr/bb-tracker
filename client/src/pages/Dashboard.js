@@ -17,10 +17,10 @@ import {
 function Dashboard() {
   const [page, setPage] = useState(1)
   const [players, setPlayers] = useState([])
+  const [totalResults, setTotalResults] = useState(0)
 
   // pagination setup
   const resultsPerPage = 10
-  const totalResults = players.length
 
   // pagination change control
   function onPageChange(p) {
@@ -33,7 +33,7 @@ function Dashboard() {
     fetch('http://localhost:8000/api/player')
       .then((response) => response.json())
       .then((players) => {
-        console.log(players);
+        setTotalResults(players.length)
         setPlayers(players.slice((page - 1) * resultsPerPage, page * resultsPerPage))
       })
       .catch((err) => {

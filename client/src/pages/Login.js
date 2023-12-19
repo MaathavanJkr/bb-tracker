@@ -90,7 +90,7 @@ function Login() {
               <p className="mt-1">
                 <Link
                   className="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
-                  to="/create-account"
+                  to="/register"
                 >
                   Create account
                 </Link>

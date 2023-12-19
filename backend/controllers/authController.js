@@ -9,7 +9,7 @@ module.exports = {
         let position = req.body.position;
         let number = req.body.number;
         let username = req.body.username;
-        let role = req.body.role;
+        let role = "player";
         let password = req.body.password;
 
         bcrypt.hash(password, 10).then((hash) => {
@@ -20,7 +20,10 @@ module.exports = {
                     return res.status(500).send(err);
                 }
                 if (result.length > 0) {
-                    return res.json("username exist");
+                    return res.json({
+                        message: "Username Exist",
+                        success: false
+                    });
                 } else {
                     // send the player's details to the database
                     let query = "INSERT INTO `users` (first_name, last_name, position, number, role, user_name, hash) VALUES ('" +
@@ -30,6 +33,7 @@ module.exports = {
                             return res.status(500).send(err);
                         }
                         res.json({
+                            success: true,
                             message: "User successfully created",
                             id: result.insertId,
                             username,

@@ -1,0 +1,29 @@
+{
+  "name": "bb-tracker",
+  "version": "1.0.0",
+  "description": "Basketball Player Status Tracker",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "cd client && npm start",
+    "server": "node backend/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MaathavanJkr/bb-tracker"
+  },
+  "keywords": [
+    "bb-tracker",
+    "basketball",
+    "shots"
+  ],
+  "author": "Maathavan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MaathavanJkr/bb-tracker/issues"
+  },
+  "homepage": "https://github.com/MaathavanJkr/bb-tracker#readme"
+}

@@ -4,7 +4,7 @@ import AccessibleNavigationAnnouncer from './components/AccessibleNavigationAnno
 
 const Layout = lazy(() => import('./containers/Layout'))
 const Login = lazy(() => import('./pages/Login'))
-const CreateAccount = lazy(() => import('./pages/CreateAccount'))
+const Register = lazy(() => import('./pages/Register'))
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'))
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
         <AccessibleNavigationAnnouncer />
         <Switch>
           <Route path="/login" component={Login} />
-          <Route path="/create-account" component={CreateAccount} />
+          <Route path="/register" component={Register} />
           <Route path="/forgot-password" component={ForgotPassword} />
 
           {/* Place new routes over this */}
