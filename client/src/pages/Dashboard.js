@@ -66,7 +66,7 @@ function Dashboard() {
     <>
       <PageTitle>Dashboard</PageTitle>
       <div className="h-40">
-      <ChartCard title="Bars">
+      <ChartCard title="Two Point Stats">
         <Bar {...playerBar} />
         <ChartLegend legends={barLegends} />
       </ChartCard>

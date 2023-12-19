@@ -4,6 +4,7 @@ import { NavLink, Route } from 'react-router-dom'
 import * as Icons from '../../icons'
 import SidebarSubmenu from './SidebarSubmenu'
 import { Button } from '@windmill/react-ui'
+import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 
 function Icon({ icon, ...props }) {
   const Icon = Icons[icon]
@@ -42,7 +43,7 @@ function SidebarContent() {
         )}
       </ul>
       <div className="px-6 my-6">
-        <Button>
+        <Button tag={Link} to="/app/add">
           Add Shots
           <span className="ml-2" aria-hidden="true">
             +

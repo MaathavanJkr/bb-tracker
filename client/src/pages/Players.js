@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
 
 import { EditIcon, EyeIcon, TrashIcon } from '../icons'
 import PageTitle from '../components/Typography/PageTitle'
@@ -16,6 +16,7 @@ import {
 } from '@windmill/react-ui'
 
 function Players() {
+  let history = useHistory();
   const [page, setPage] = useState(1)
   const [players, setPlayers] = useState([])
   const [totalResults, setTotalResults] = useState(0)
@@ -51,20 +52,28 @@ function Players() {
           <TableHeader>
             <tr>
               <TableCell>Player</TableCell>
+              <TableCell>Attempt</TableCell>
+              <TableCell>Success</TableCell>
               <TableCell>Position</TableCell>
-              <TableCell>Action</TableCell>
+              <TableCell>Actions</TableCell>
             </tr>
           </TableHeader>
           <TableBody>
             {players.map((player, i) => (
-              <TableRow key={i}>
-                <TableCell>
+              <TableRow key={i} className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-900">
+                <TableCell onClick={()=> {history.push('/app/profile/' + player.id)}} >
                   <div>
                     <p className="font-semibold">{player.firstname + " " + player.lastname}</p>
                     <p className="text-xs text-gray-600 dark:text-gray-400">{player.job}</p>
                   </div>
                 </TableCell>
-                <TableCell>
+                <TableCell onClick={()=> {history.push('/app/profile/' + player.id)}}>
+                  <span className="text-sm">{player.two_attempts}</span>
+                </TableCell>
+                <TableCell onClick={()=> {history.push('/app/profile/' + player.id)}}>
+                  <span className="text-sm">{player.two_success}</span>
+                </TableCell>
+                <TableCell onClick={()=> {history.push('/app/profile/' + player.id)}}>
                   <span className="text-sm">{player.position}</span>
                 </TableCell>
                 <TableCell>

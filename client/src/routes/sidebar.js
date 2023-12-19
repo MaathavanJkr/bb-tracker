@@ -12,20 +12,20 @@ const routes = [
     name: 'Dashboard', // name that appear in Sidebar
   },
   {
+    path: '/app/players',
+    icon: 'PeopleIcon',
+    name: 'Players',
+  },
+  {
     path: '/app/profile/1',
-    icon: 'FormsIcon',
+    icon: 'CardsIcon',
     name: 'Profile',
   },
-  {
-    path: '/app/add',
-    icon: 'CardsIcon',
-    name: 'Add Shots',
-  },
-  {
-    path: '/app/charts',
-    icon: 'ChartsIcon',
-    name: 'Charts',
-  },
+  // {
+  //   path: '/app/charts',
+  //   icon: 'ChartsIcon',
+  //   name: 'Charts',
+  // },
 ]
 
 export default routes
