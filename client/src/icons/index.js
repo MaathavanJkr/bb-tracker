@@ -9,6 +9,7 @@ import { ReactComponent as TablesIcon } from './tables.svg'
 import { ReactComponent as HeartIcon } from './heart.svg'
 import { ReactComponent as EditIcon } from './edit.svg'
 import { ReactComponent as TrashIcon } from './trash.svg'
+import { ReactComponent as EyeIcon } from './eye.svg'
 import { ReactComponent as ForbiddenIcon } from './forbidden.svg'
 import { ReactComponent as GithubIcon } from './github.svg'
 import { ReactComponent as TwitterIcon } from './twitter.svg'
@@ -39,6 +40,7 @@ export {
   HeartIcon,
   EditIcon,
   TrashIcon,
+  EyeIcon,
   ForbiddenIcon,
   GithubIcon,
   TwitterIcon,

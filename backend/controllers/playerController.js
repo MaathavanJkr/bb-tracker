@@ -57,7 +57,7 @@ module.exports = {
                     if (err) {
                         return res.status(500).send(err);
                     }
-                    let out = {...result[0], stat: result2} 
+                    let out = { ...result[0], stat: result2 }
                     res.json(out);
                 });
             } else {
@@ -87,6 +87,33 @@ module.exports = {
         u.id = s.user_id
     WHERE
         u.role = 'player'
+    GROUP BY
+        u.id, u.username;`;
+
+        db.query(query, (err, result) => {
+            if (err) {
+                return res.status(500).send(err);
+            }
+            res.json(result);
+        });
+    },
+
+    getPlayersByShots: (req, res) => {
+        let query = `SELECT
+        u.id AS user_id,
+        u.username,
+        COALESCE(SUM(CASE WHEN s.type = 'three' THEN s.attempt ELSE 0 END), 0) AS three_attempts,
+        COALESCE(SUM(CASE WHEN s.type = 'three' THEN s.success ELSE 0 END), 0) AS three_success,
+        COALESCE(SUM(CASE WHEN s.type = 'two' THEN s.attempt ELSE 0 END), 0) AS two_attempts,
+        COALESCE(SUM(CASE WHEN s.type = 'two' THEN s.success ELSE 0 END), 0) AS two_success,
+        COALESCE(SUM(CASE WHEN s.type = 'free' THEN s.attempt ELSE 0 END), 0) AS free_attempts,
+        COALESCE(SUM(CASE WHEN s.type = 'free' THEN s.success ELSE 0 END), 0) AS free_success
+    FROM
+        users u
+    LEFT JOIN
+        shots s
+    ON
+        u.id = s.user_id AND MONTH(s.date) = MONTH(NOW()) AND YEAR(s.date) = YEAR(NOW())
     GROUP BY
         u.id, u.username;`;
 

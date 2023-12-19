@@ -68,6 +68,7 @@ module.exports = {
             } else {
                 let user = result[0]
                 bcrypt.compare(password, user.hash).then(function (result) {
+                    delete user["hash"]
                     result
                         ? res.status(200).json({
                             success: true,
@@ -83,6 +84,26 @@ module.exports = {
                 })
             }
         });
+    },
+    validateToken: (req, res) => {
+        const token = req.body.token
+        jwt.verify(token, config.jwtSecret, (err, decodedToken) => {
+            if (err) {
+                return res.status(401).json({ sucess: false, message: "Not authorized" })
+            } else {
+                if (decodedToken.role) {
+                    res.status(200).json({
+                        success: true,
+                        message: "Validated",
+                        id: decodedToken.id,
+                        username: decodedToken.username,
+                        role: decodedToken.role,
+                    })
+                } else {
+                    return res.status(401).json({ sucess: false, message: "Not authorized" })
+                }
+            }
+        })
     }
 };
 

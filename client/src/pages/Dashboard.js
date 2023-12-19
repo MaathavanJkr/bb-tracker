@@ -1,95 +1,76 @@
 import React, { useState, useEffect } from 'react'
 
-import { EditIcon, TrashIcon } from '../icons'
 import PageTitle from '../components/Typography/PageTitle'
-import {
-  TableBody,
-  TableContainer,
-  Table,
-  TableHeader,
-  TableCell,
-  TableRow,
-  TableFooter,
-  Button,
-  Pagination,
-} from '@windmill/react-ui'
+import ChartCard from '../components/Chart/ChartCard'
+import { Bar } from 'react-chartjs-2'
+import ChartLegend from '../components/Chart/ChartLegend'
 
 function Dashboard() {
-  const [page, setPage] = useState(1)
-  const [players, setPlayers] = useState([])
-  const [totalResults, setTotalResults] = useState(0)
+  const [playerBar, setPlayerBar] = useState({
+    data: {
+    },
+    options: {
+      responsive: true,
+    },
+    legend: {
+      display: false,
+    },
+  });
 
-  // pagination setup
-  const resultsPerPage = 10
-
-  // pagination change control
-  function onPageChange(p) {
-    setPage(p)
-  }
-
-  // on page change, load new sliced players
-  // here you would make another server request for new players
+  const barLegends = [
+    { title: 'Attempt', color: 'bg-purple-600' },
+    { title: 'Success', color: 'bg-teal-600' },
+  ]
   useEffect(() => {
-    fetch('http://localhost:8000/api/player')
+    fetch('http://localhost:8000/api/player/shots')
       .then((response) => response.json())
       .then((players) => {
-        setTotalResults(players.length)
-        setPlayers(players.slice((page - 1) * resultsPerPage, page * resultsPerPage))
+        let attemptData = []
+        let successData = []
+        let labels = []
+        players.forEach((item) => {
+          attemptData.push(item.two_attempts)
+          successData.push(item.two_success)
+          labels.push(item.username)
+        })
+
+        let successDataSet = {
+          label: 'Success',
+          backgroundColor: '#0694a2',
+          borderWidth: 1,
+          data: successData,
+        }
+        let attemptDataSet = {
+          label: 'Attempts',
+          backgroundColor: '#7e3af2',
+          borderWidth: 1,
+          data: attemptData,
+        }
+
+        setPlayerBar({
+          ...playerBar,
+          data: {
+            labels: labels,
+            datasets: [attemptDataSet, successDataSet]
+          }
+        })
+
       })
       .catch((err) => {
         console.log(err.message);
       });
-  }, [page])
+    // eslint-disable-next-line
+  }, [])
 
   return (
     <>
       <PageTitle>Dashboard</PageTitle>
-
-      <TableContainer>
-        <Table>
-          <TableHeader>
-            <tr>
-              <TableCell>Player</TableCell>
-              <TableCell>Position</TableCell>
-              <TableCell>Action</TableCell>
-            </tr>
-          </TableHeader>
-          <TableBody>
-            {players.map((player, i) => (
-              <TableRow key={i}>
-                <TableCell>
-                  <div>
-                    <p className="font-semibold">{player.firstname + " " + player.lastname}</p>
-                    <p className="text-xs text-gray-600 dark:text-gray-400">{player.job}</p>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <span className="text-sm">{player.position}</span>
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center space-x-4">
-                    <Button layout="link" size="icon" aria-label="Edit">
-                      <EditIcon className="w-5 h-5" aria-hidden="true" />
-                    </Button>
-                    <Button layout="link" size="icon" aria-label="Delete">
-                      <TrashIcon className="w-5 h-5" aria-hidden="true" />
-                    </Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <TableFooter>
-          <Pagination
-            totalResults={totalResults}
-            resultsPerPage={resultsPerPage}
-            label="Table navigation"
-            onChange={onPageChange}
-          />
-        </TableFooter>
-      </TableContainer>
-
+      <div className="h-40">
+      <ChartCard title="Bars">
+        <Bar {...playerBar} />
+        <ChartLegend legends={barLegends} />
+      </ChartCard>
+      </div>
     </>
   )
 }

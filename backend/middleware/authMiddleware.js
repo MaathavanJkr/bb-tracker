@@ -10,10 +10,10 @@ exports.adminAuth = (req, res, next) => {
             // Verify 
             jwt.verify(token, config.jwtSecret, (err, decodedToken) => {
                 if (err) {
-                    return res.status(401).json({ message: "Not authorized" })
+                    return res.status(401).json({ sucess: false, message: "Not authorized" })
                 } else {
                     if (decodedToken.role !== "admin") {
-                        return res.status(401).json({ message: "Not authorized" })
+                        return res.status(401).json({ sucess: false, message: "Not authorized" })
                     } else {
                         req.user = decodedToken.id
                         next()
@@ -22,11 +22,11 @@ exports.adminAuth = (req, res, next) => {
             })
         } catch (error) {
             console.log(error)
-            return res.status(401).json({ message: "Not authorized" })
+            return res.status(401).json({ sucess: false, message: "Not authorized" })
         }
     }
     if (!token) {
-        return res.status(401).json({ message: "Not authorized" })
+        return res.status(401).json({ sucess: false, message: "Not authorized" })
     }
 }
 
@@ -39,22 +39,22 @@ exports.userAuth = (req, res, next) => {
             // Verify 
             jwt.verify(token, config.jwtSecret, (err, decodedToken) => {
                 if (err) {
-                    return res.status(401).json({ message: "Not authorized" })
+                    return res.status(401).json({ sucess: false, message: "Not authorized" })
                 } else {
                     if (decodedToken.role) {
                         req.user = decodedToken.id
                         next()
                     } else {
-                        return res.status(401).json({ message: "Not authorized" })
+                        return res.status(401).json({ sucess: false, message: "Not authorized" })
                     }
                 }
             })
         } catch (error) {
             console.log(error)
-            return res.status(401).json({ message: "Not authorized" })
+            return res.status(401).json({ sucess: false, message: "Not authorized" })
         }
     }
     if (!token) {
-        return res.status(401).json({ message: "Not authorized" })
+        return res.status(401).json({ sucess: false, message: "Not authorized" })
     }
 }
