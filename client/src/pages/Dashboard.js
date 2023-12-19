@@ -59,7 +59,7 @@ function Dashboard() {
               <TableRow key={i}>
                 <TableCell>
                   <div>
-                    <p className="font-semibold">{player.first_name + " " + player.last_name}</p>
+                    <p className="font-semibold">{player.firstname + " " + player.lastname}</p>
                     <p className="text-xs text-gray-600 dark:text-gray-400">{player.job}</p>
                   </div>
                 </TableCell>

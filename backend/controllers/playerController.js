@@ -2,10 +2,10 @@ module.exports = {
     getPlayer: (req, res) => {
         let playerId = req.params.id;
         let query = `SELECT
-        u.id AS user_id,
-        u.first_name,
-        u.last_name,
-        u.user_name,
+        u.id,
+        u.firstname,
+        u.lastname,
+        u.username,
         u.position,
         u.number,
         COALESCE(SUM(CASE WHEN s.type = 'three' THEN s.attempt ELSE 0 END), 0) AS total_three_attempts,
@@ -23,7 +23,7 @@ module.exports = {
     WHERE
         u.id = ${playerId}
     GROUP BY
-        u.id, u.user_name;`;
+        u.id, u.username;`;
 
         timeQuery = `SELECT
         YEAR(s.date) AS year_number,
@@ -44,7 +44,7 @@ module.exports = {
         u.id = ${playerId}
         AND s.date >= DATE_SUB(NOW(), INTERVAL 7 MONTH)
     GROUP BY
-        u.id, u.user_name, year_number, month_number
+        u.id, u.username, year_number, month_number
     ORDER BY
         year_number ASC, month_number ASC;`;
 
@@ -57,12 +57,8 @@ module.exports = {
                     if (err) {
                         return res.status(500).send(err);
                     }
-                    if (result2.length > 0) {
-                        let out = {...result[0], stat: result2} 
-                        res.json(out);
-                    } else {
-                        return res.json("Error");
-                    }
+                    let out = {...result[0], stat: result2} 
+                    res.json(out);
                 });
             } else {
                 return res.json("user doesnot exist");
@@ -71,10 +67,10 @@ module.exports = {
     },
     getAllPlayers: (req, res) => {
         let query = `SELECT
-        u.id AS user_id,
-        u.first_name,
-        u.last_name,
-        u.user_name,
+        u.id,
+        u.firstname,
+        u.lastname,
+        u.username,
         u.position,
         u.number,
         COALESCE(SUM(CASE WHEN s.type = 'three' THEN s.attempt ELSE 0 END), 0) AS three_attempts,
@@ -92,7 +88,7 @@ module.exports = {
     WHERE
         u.role = 'player'
     GROUP BY
-        u.id, u.user_name;`;
+        u.id, u.username;`;
 
         db.query(query, (err, result) => {
             if (err) {
@@ -102,13 +98,13 @@ module.exports = {
         });
     },
     addPlayer: (req, res) => {
-        let first_name = req.body.first_name;
-        let last_name = req.body.last_name;
+        let firstname = req.body.firstname;
+        let lastname = req.body.lastname;
         let position = req.body.position;
         let number = req.body.number;
         let username = req.body.username;
 
-        let usernameQuery = "SELECT * FROM `users` WHERE user_name = '" + username + "'";
+        let usernameQuery = "SELECT * FROM `users` WHERE username = '" + username + "'";
 
         db.query(usernameQuery, (err, result) => {
             if (err) {
@@ -118,8 +114,8 @@ module.exports = {
                 return res.json("username exist");
             } else {
                 // send the player's details to the database
-                let query = "INSERT INTO `users` (first_name, last_name, position, number, user_name) VALUES ('" +
-                    first_name + "', '" + last_name + "', '" + position + "', '" + number + "', '" + username + "')";
+                let query = "INSERT INTO `users` (firstname, lastname, position, number, username) VALUES ('" +
+                    firstname + "', '" + lastname + "', '" + position + "', '" + number + "', '" + username + "')";
                 db.query(query, (err, result) => {
                     if (err) {
                         return res.status(500).send(err);
@@ -131,12 +127,12 @@ module.exports = {
     },
     editPlayer: (req, res) => {
         let playerId = req.params.id;
-        let first_name = req.body.first_name;
-        let last_name = req.body.last_name;
+        let firstname = req.body.firstname;
+        let lastname = req.body.lastname;
         let position = req.body.position;
         let number = req.body.number;
 
-        let query = "UPDATE `users` SET `first_name` = '" + first_name + "', `last_name` = '" + last_name + "', `position` = '" + position + "', `number` = '" + number + "' WHERE `users`.`id` = '" + playerId + "'";
+        let query = "UPDATE `users` SET `firstname` = '" + firstname + "', `lastname` = '" + lastname + "', `position` = '" + position + "', `number` = '" + number + "' WHERE `users`.`id` = '" + playerId + "'";
         db.query(query, (err, result) => {
             if (err) {
                 return res.status(500).send(err);

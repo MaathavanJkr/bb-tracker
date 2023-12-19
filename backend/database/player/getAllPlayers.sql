@@ -1,6 +1,6 @@
 SELECT
     u.id AS user_id,
-    u.user_name,
+    u.username,
     SUM(CASE WHEN s.type = 'three' THEN s.attempt ELSE 0 END) AS three_point_attempts,
     SUM(CASE WHEN s.type = 'three' THEN s.success ELSE 0 END) AS three_point_success,
     SUM(CASE WHEN s.type = 'two' THEN s.attempt ELSE 0 END) AS two_point_attempts,
@@ -14,4 +14,4 @@ JOIN
 ON
     u.id = s.user_id
 GROUP BY
-    u.id, u.user_name;
+    u.id, u.username;

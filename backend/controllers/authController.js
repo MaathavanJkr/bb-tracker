@@ -4,8 +4,8 @@ const config = require("../config");
 
 module.exports = {
     registerUser: (req, res) => {
-        let first_name = req.body.first_name;
-        let last_name = req.body.last_name;
+        let firstname = req.body.firstname;
+        let lastname = req.body.lastname;
         let position = req.body.position;
         let number = req.body.number;
         let username = req.body.username;
@@ -13,7 +13,7 @@ module.exports = {
         let password = req.body.password;
 
         bcrypt.hash(password, 10).then((hash) => {
-            let usernameQuery = "SELECT * FROM `users` WHERE user_name = '" + username + "'";
+            let usernameQuery = "SELECT * FROM `users` WHERE username = '" + username + "'";
 
             db.query(usernameQuery, (err, result) => {
                 if (err) {
@@ -26,8 +26,8 @@ module.exports = {
                     });
                 } else {
                     // send the player's details to the database
-                    let query = "INSERT INTO `users` (first_name, last_name, position, number, role, user_name, hash) VALUES ('" +
-                        first_name + "', '" + last_name + "', '" + position + "', '" + number + "', '" + role + "', '" + username + "', '" + hash + "')";
+                    let query = "INSERT INTO `users` (firstname, lastname, position, number, role, username, hash) VALUES ('" +
+                        firstname + "', '" + lastname + "', '" + position + "', '" + number + "', '" + role + "', '" + username + "', '" + hash + "')";
                     db.query(query, (err, result) => {
                         if (err) {
                             return res.status(500).send(err);
@@ -54,7 +54,7 @@ module.exports = {
             })
         }
 
-        let usernameQuery = "SELECT * FROM `users` WHERE user_name = '" + username + "'";
+        let usernameQuery = "SELECT * FROM `users` WHERE username = '" + username + "'";
 
         db.query(usernameQuery, (err, result) => {
             if (err) {

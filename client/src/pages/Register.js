@@ -29,8 +29,8 @@ function Register() {
         method: 'POST',
         body: JSON.stringify({
           username: username,
-          first_name: firstname,
-          last_name: lastname,
+          firstname: firstname,
+          lastname: lastname,
           position: position,
           number: number,
           password: password,

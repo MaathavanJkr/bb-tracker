@@ -192,8 +192,8 @@ function Profile() {
       <PageTitle>Profile</PageTitle>
       <Card className="mb-8 shadow-md">
         <CardBody>
-          <h1 className="mt-4 text-4xl font-bold text-center text-gray-800 dark:text-gray-200 leading-none">{player.first_name + " " + player.last_name}</h1>
-          <h3 className="text-xl text-center text-gray-600 dark:text-gray-400">{"@" + player.user_name}</h3>
+          <h1 className="mt-4 text-4xl font-bold text-center text-gray-800 dark:text-gray-200 leading-none">{player.firstname + " " + player.lastname}</h1>
+          <h3 className="text-xl text-center text-gray-600 dark:text-gray-400">{"@" + player.username}</h3>
           <h3 className="mt-2 font-semibold text-xl text-center text-gray-700 dark:text-gray-300">Position: {player.position}</h3>
           <h3 className="-mt-2 font-semibold text-xl text-center text-gray-700 dark:text-gray-300">Number: {player.number}</h3>
           <ul className="py-4 mt-2 flex items-center justify-around">
