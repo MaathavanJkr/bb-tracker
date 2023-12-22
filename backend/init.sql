@@ -1,4 +1,3 @@
-CREATE DATABASE bb_tracker;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `firstname` varchar(255) NOT NULL,
