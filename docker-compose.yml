@@ -1,0 +1,65 @@
+version: "3.8"
+services:
+  db:
+    image: mysql:5.7
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASS}"
+      MYSQL_DATABASE: "${DB_NAME}"
+    networks:
+      - app-network
+    ports:
+      - ${MYSQLDB_LOCAL_PORT}:${MYSQLDB_DOCKER_PORT}
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  back-end:
+    build: 
+      context: backend
+    restart: unless-stopped
+    container_name: back-end
+    env_file: ./.env
+    environment:
+      DB_HOST: db
+      DB_PORT:     "${DB_PORT}"
+      DB_USER:     "${DB_USER}"
+      DB_PASSWORD: "${DB_PASS}"
+      DB_NAME:     "${DB_NAME}"
+      PORT: "${PORT}"
+      JWT_SECRET: "${JWT_SECRET}"
+    ports:
+      - "3000:3000" # Expose port 3000 on host
+    depends_on:
+      - db # Wait until database service is loaded
+    networks:
+      - app-network
+    command: npm run start
+  front-end:
+    restart: unless-stopped
+    build: 
+      context: client
+    container_name: front-end
+    networks: 
+      - app-network
+    tty: true
+    ports: 
+      - "5173:5173"
+    command: npm run start
+
+  nginx:
+    build: 
+      context: nginx
+    container_name: nginx
+    restart: always
+    tty: true
+    ports: 
+      - "8000:80"
+    networks: 
+      - app-network
+    depends_on:
+       - back-end
+       - front-end
+
+networks: # Specify the network for bridging
+  app-network:
+    driver: bridge
