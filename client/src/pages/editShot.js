@@ -15,7 +15,7 @@ function Forms() {
   const [success, setSuccess] = useState('');
   const [date, setDate] = useState('');
   const addShot = async () => {
-    await fetch('http://localhost:8000/api/shot/' + id, {
+    await fetch(process.env.REACT_APP_BACKEND_URL + '/api/shot/' + id, {
       method: 'PUT',
       body: JSON.stringify({
         type: type,
@@ -42,7 +42,7 @@ function Forms() {
   };
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/shot/' + id)
+    fetch(process.env.REACT_APP_BACKEND_URL + '/api/shot/' + id)
       .then((response) => response.json())
       .then((shot) => {
         setAttempt(shot.attempt)

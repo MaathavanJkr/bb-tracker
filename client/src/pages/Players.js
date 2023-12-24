@@ -32,7 +32,7 @@ function Players() {
   // on page change, load new sliced players
   // here you would make another server request for new players
   useEffect(() => {
-    fetch('http://localhost:8000/api/player')
+    fetch(process.env.REACT_APP_BACKEND_URL + '/api/player')
       .then((response) => response.json())
       .then((players) => {
         setTotalResults(players.length)

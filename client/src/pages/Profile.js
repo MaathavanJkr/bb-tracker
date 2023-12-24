@@ -109,7 +109,7 @@ function Profile() {
   // on page change, load new sliced players
   // here you would make another server request for new players
   useEffect(() => {
-    fetch('http://localhost:8000/api/shot/player/' + id)
+    fetch(process.env.REACT_APP_BACKEND_URL + '/api/shot/player/' + id)
       .then((response) => response.json())
       .then((shots) => {
         setTotalResults(shots.length)
@@ -121,7 +121,7 @@ function Profile() {
   }, [page])
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/player/' + id)
+    fetch(process.env.REACT_APP_BACKEND_URL + '/api/player/' + id)
       .then((response) => response.json())
       .then((player) => {
         setPlayer(player)
@@ -167,7 +167,7 @@ function Profile() {
   }, [])
 
   const deleteShot = async (id) => {
-    await fetch('http://localhost:8000/api/shot/' + id, {
+    await fetch(process.env.REACT_APP_BACKEND_URL + '/api/shot/' + id, {
       method: 'DELETE',
       headers: {
         'Content-type': 'application/json; charset=UTF-8',

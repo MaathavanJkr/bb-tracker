@@ -19,7 +19,7 @@ function Login() {
   });
 
   const requestLogin = async () => {
-    await fetch('http://localhost:8000/api/auth/login', {
+    await fetch(process.env.REACT_APP_BACKEND_URL + '/api/auth/login', {
       method: 'POST',
       body: JSON.stringify({
         username: username,

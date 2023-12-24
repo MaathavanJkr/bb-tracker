@@ -22,7 +22,7 @@ function Dashboard() {
     { title: 'Success', color: 'bg-teal-600' },
   ]
   useEffect(() => {
-    fetch('http://localhost:8000/api/player/shots')
+    fetch(process.env.REACT_APP_BACKEND_URL + '/api/player/shots')
       .then((response) => response.json())
       .then((players) => {
         let attemptData = []

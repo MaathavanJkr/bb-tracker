@@ -16,7 +16,7 @@ function Forms() {
   const [date, setDate] = useState(dateNow);
   let token = localStorage.getItem("token");
   const addShot = async () => {
-    await fetch('http://localhost:8000/api/shot/add', {
+    await fetch(process.env.REACT_APP_BACKEND_URL + '/api/shot/add', {
       method: 'POST',
       body: JSON.stringify({
         type: type,

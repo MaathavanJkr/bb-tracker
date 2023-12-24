@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS `bb-tracker`;
+USE `bb-tracker`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `firstname` varchar(255) NOT NULL,

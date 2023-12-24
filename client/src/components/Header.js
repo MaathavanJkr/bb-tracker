@@ -25,7 +25,7 @@ function Header() {
   useEffect(() => {
     const token = localStorage.getItem("token")
     if (token) {
-      fetch('http://localhost:8000/api/auth/validate', {
+      fetch(process.env.REACT_APP_BACKEND_URL + '/api/auth/validate', {
         method: 'POST',
         body: JSON.stringify({
           token: token

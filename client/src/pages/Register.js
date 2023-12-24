@@ -25,7 +25,7 @@ function Register() {
 
   const registerPlayer = async () => {
     if (password == cpassword) {
-      await fetch('http://localhost:8000/api/auth/register', {
+      await fetch(process.env.REACT_APP_BACKEND_URL + '/api/auth/register', {
         method: 'POST',
         body: JSON.stringify({
           username: username,
