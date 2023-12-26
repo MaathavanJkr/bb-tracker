@@ -17,6 +17,7 @@ jobs:
   deploy-react-to-gh-pages:
     runs-on: ubuntu-latest
     env:
+      CI: false
       REACT_APP_BACKEND_URL: http://btapi.maathavan.live
 
     #Set Default working directory as client
