@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Deploy app to GitHub Pages
 
 # Controls when the workflow will run
 on:
@@ -19,6 +19,10 @@ jobs:
     env:
       REACT_APP_BACKEND_URL: http://btapi.maathavan.live
 
+    #Set Default working directory as client
+    defaults:
+      run:
+        working-directory: ./client
     steps:
       # checkout the repository content to github runner
       - name: Checkout
@@ -38,10 +42,6 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-
-      # install dependencies
-      - name: Change Directory
-        run: cd client
 
       # install dependencies
       - name: Install dependencies
