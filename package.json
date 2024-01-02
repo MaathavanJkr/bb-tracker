@@ -2,6 +2,7 @@
   "name": "bb-tracker",
   "version": "1.0.0",
   "description": "Basketball Player Status Tracker",
+  "homepage": "bbtracker.maathavan.live",
   "main": "index.js",
   "directories": {
     "test": "test"
@@ -24,6 +25,5 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/MaathavanJkr/bb-tracker/issues"
-  },
-  "homepage": "https://github.com/MaathavanJkr/bb-tracker#readme"
+  }
 }
