@@ -1,7 +1,6 @@
 {
   "name": "bb-tracker-client",
   "version": "0.4.0",
-  "homepage": "https://maathavanjkr.github.io/bb-tracker",
   "description": "A multi theme, completely accessible, with components and pages examples, (almost) ready for production dashboard.",
   "private": true,
   "scripts": {
