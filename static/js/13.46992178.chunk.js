@@ -1,0 +1,2 @@
+(this["webpackJsonpbb-tracker-client"]=this["webpackJsonpbb-tracker-client"]||[]).push([[13],{187:function(t,e,n){"use strict";n.r(e);var a=n(0),r=n.n(a),c=n(32);e.default=function(){return r.a.createElement(r.a.Fragment,null,r.a.createElement(c.a,null,"Blank"))}},32:function(t,e,n){"use strict";var a=n(0),r=n.n(a);e.a=function(t){var e=t.children;return r.a.createElement("h1",{className:"my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"},e)}}}]);
+//# sourceMappingURL=13.46992178.chunk.js.map
