@@ -118,7 +118,7 @@ function Profile() {
       .catch((err) => {
         console.log(err.message);
       });
-  }, [page])
+  }, [page, id])
 
   useEffect(() => {
     fetch(process.env.REACT_APP_BACKEND_URL + '/api/player/' + id)

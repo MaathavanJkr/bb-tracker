@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect } from 'react'
-import { SidebarContext } from '../context/SidebarContext'
+import React, { useContext, useState, useEffect } from "react";
+import { SidebarContext } from "../context/SidebarContext";
 import {
   MoonIcon,
   SunIcon,
@@ -7,62 +7,67 @@ import {
   OutlinePersonIcon,
   OutlineCogIcon,
   OutlineLogoutIcon,
-} from '../icons'
-import { Avatar, Dropdown, DropdownItem, WindmillContext } from '@windmill/react-ui'
+} from "../icons";
+import {
+  Avatar,
+  Dropdown,
+  DropdownItem,
+  WindmillContext,
+} from "@windmill/react-ui";
 import { useHistory } from "react-router-dom";
 
 function Header() {
   let history = useHistory();
-  const { mode, toggleMode } = useContext(WindmillContext)
-  const { toggleSidebar } = useContext(SidebarContext)
+  const { mode, toggleMode } = useContext(WindmillContext);
+  const { toggleSidebar } = useContext(SidebarContext);
 
-  const [isNotificationsMenuOpen, setIsNotificationsMenuOpen] = useState(false)
-  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
+  // const [isNotificationsMenuOpen, setIsNotificationsMenuOpen] = useState(false)
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
-  const [username, setUsername] = useState('')
-  const [id, setId] = useState('')
+  const [username, setUsername] = useState("");
+  const [id, setId] = useState("");
+
+  const logOut = () => {
+    localStorage.removeItem("token");
+    history.push("/login");
+  };
 
   useEffect(() => {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
     if (token) {
-      fetch(process.env.REACT_APP_BACKEND_URL + '/api/auth/validate', {
-        method: 'POST',
+      fetch(process.env.REACT_APP_BACKEND_URL + "/api/auth/validate", {
+        method: "POST",
         body: JSON.stringify({
-          token: token
+          token: token,
         }),
         headers: {
-          'Content-type': 'application/json; charset=UTF-8',
+          "Content-type": "application/json; charset=UTF-8",
         },
       })
         .then((response) => response.json())
         .then((data) => {
           if (data.success) {
-            setId(data.id)
-            setUsername(data.username)
+            setId(data.id);
+            setUsername(data.username);
           } else {
-            logOut();
+            localStorage.removeItem("token");
+            history.push("/login");
           }
         })
         .catch((err) => {
           console.log(err.message);
         });
     } else {
-      history.push('/login')
+      history.push("/login");
     }
+  }, [history]);
 
-  }, [])
-
-  const logOut = () => {
-    localStorage.removeItem("token");
-    history.push('/login')
-  }
-
-  function handleNotificationsClick() {
-    setIsNotificationsMenuOpen(!isNotificationsMenuOpen)
-  }
+  // function handleNotificationsClick() {
+  //   setIsNotificationsMenuOpen(!isNotificationsMenuOpen)
+  // }
 
   function handleProfileClick() {
-    setIsProfileMenuOpen(!isProfileMenuOpen)
+    setIsProfileMenuOpen(!isProfileMenuOpen);
   }
 
   return (
@@ -97,7 +102,7 @@ function Header() {
               onClick={toggleMode}
               aria-label="Toggle color mode"
             >
-              {mode === 'dark' ? (
+              {mode === "dark" ? (
                 <SunIcon className="w-5 h-5" aria-hidden="true" />
               ) : (
                 <MoonIcon className="w-5 h-5" aria-hidden="true" />
@@ -159,7 +164,10 @@ function Header() {
               onClose={() => setIsProfileMenuOpen(false)}
             >
               <DropdownItem tag="a" href={"/app/profile/" + id}>
-                <OutlinePersonIcon className="w-4 h-4 mr-3" aria-hidden="true" />
+                <OutlinePersonIcon
+                  className="w-4 h-4 mr-3"
+                  aria-hidden="true"
+                />
                 <span>{username}</span>
               </DropdownItem>
               <DropdownItem tag="a" href="#">
@@ -167,7 +175,10 @@ function Header() {
                 <span>Settings</span>
               </DropdownItem>
               <DropdownItem onClick={logOut}>
-                <OutlineLogoutIcon className="w-4 h-4 mr-3" aria-hidden="true" />
+                <OutlineLogoutIcon
+                  className="w-4 h-4 mr-3"
+                  aria-hidden="true"
+                />
                 <span>Log out</span>
               </DropdownItem>
             </Dropdown>
@@ -175,7 +186,7 @@ function Header() {
         </ul>
       </div>
     </header>
-  )
+  );
 }
 
-export default Header
+export default Header;

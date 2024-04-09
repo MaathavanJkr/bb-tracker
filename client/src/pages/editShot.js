@@ -53,7 +53,7 @@ function Forms() {
       .catch((err) => {
         console.log(err.message);
       });
-  }, [])
+  }, [id])
 
   return (
     <>

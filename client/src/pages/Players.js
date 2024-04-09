@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 
-import { EditIcon, EyeIcon, TrashIcon } from '../icons'
+import { EyeIcon } from '../icons'
 import PageTitle from '../components/Typography/PageTitle'
 import {
   TableBody,

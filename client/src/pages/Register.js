@@ -1,6 +1,6 @@
 import ImageLight from '../assets/img/create-account-office.jpeg'
 import ImageDark from '../assets/img/create-account-office-dark.jpeg'
-import { GithubIcon, TwitterIcon } from '../icons'
+// import { GithubIcon, TwitterIcon } from '../icons'
 import { Input, Label, Button } from '@windmill/react-ui'
 import React, { useState, useEffect } from 'react';
 import { useHistory, Link } from "react-router-dom";
@@ -24,7 +24,7 @@ function Register() {
   });
 
   const registerPlayer = async () => {
-    if (password == cpassword) {
+    if (password === cpassword) {
       await fetch(process.env.REACT_APP_BACKEND_URL + '/api/auth/register', {
         method: 'POST',
         body: JSON.stringify({
