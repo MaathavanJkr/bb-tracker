@@ -4,11 +4,19 @@ const cors = require('cors')
 var mysql = require('mysql');
 const config = require("./config");
 
-var db = mysql.createConnection(config.sql);
-db.connect(function (err) {
-    if (err) throw err;
-    console.log("Connected!");
+var db = mysql.createPool(config.sql);
+db.on("connection", (connection) => {
+  console.log("Database connected!");
+
+  connection.on("error", (err) => {
+    console.error(new Date(), "MySQL error", err.code);
+  });
+
+  connection.on("close", (err) => {
+    console.error(new Date(), "MySQL close", err);
+  });
 });
+
 global.db = db;
 
 
